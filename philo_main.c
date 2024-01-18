@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:02 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/18 22:24:34 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/18 23:08:58 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@ void	print_it(t_rules *rules)
 	printf("===========================================\n");
 }
 
+void	print_philo(t_philo *philos, int nbr)
+{
+	int i = -1;
+	while (++i < nbr)
+	{
+		printf("===========================================\n");
+		printf("philo_id :%d:\n", philos[i].id);
+		printf("r_fork_id :%d:\n", philos[i].r_fork->fork_id);
+		printf("l_fork_id :%d:\n", philos[i].l_fork->fork_id);
+		printf("===========================================\n");
+	}
+}
+
 int	main(int ac, char **av)
 {
 	t_rules	rules;
@@ -30,7 +43,8 @@ int	main(int ac, char **av)
 	if ((ac == 5 || ac == 6) && is_valid(av, ac) && ft_atoi(av[1]) <= PH_MAX)
 	{
 		init_rules(&rules, av, ac);
-		print_it(&rules);
+		print_philo(rules.philos, rules.phs_nb);
+		// print_it(&rules);
 	}
 	else
 		return (error_(av[1]));

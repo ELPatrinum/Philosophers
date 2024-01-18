@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:48:48 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/18 22:24:09 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/18 23:30:06 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@ static void	assign_forks(t_philo *philo, t_fork *forks, int i, int nbr)
 		philo->r_fork = &forks[nbr - 1];
 		philo->l_fork = &forks[0];
 	}
-	else if (i > 0)
+	else if (i >= 0)
 	{
 		philo->r_fork = &forks[i];
+		printf("philo_id:%d: r_fork_id:%d:\n",philo->id, philo->r_fork->fork_id);
 		philo->l_fork = &forks[i + 1];
+		printf("philo_id:%d: l_fork_id :%d:\n",philo->id, philo->l_fork->fork_id);
 	}
 }
 
@@ -44,7 +46,7 @@ static void	init_forks(t_rules *rules)
 			free(rules->philos);
 			exit(EXIT_FAILURE);
 		}
-		rules->forks->fork_id = i;
+		rules->forks[i].fork_id = i;
 	}
 }
 
