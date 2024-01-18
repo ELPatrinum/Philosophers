@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 16:50:57 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/17 13:53:57 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:59:40 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static long	calc_result(long tmp, long result, char c, size_t sign)
 
 size_t	ft_atoi(const char *str)
 {
-	size_t		i;
-	size_t		sign;
+	size_t	i;
+	size_t	sign;
 	long	result;
 	long	tmp;
 

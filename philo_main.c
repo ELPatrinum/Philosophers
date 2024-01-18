@@ -6,53 +6,33 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:02 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/17 15:37:52 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/18 20:32:51 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	print_it(t_philo *philo, bool *i)
+void	print_it(t_rules *rules)
 {
-	if (*i)
-	{
-		printf("===========================================\n");
-		*i = false;
-	}
-	printf("philo->id         :%d:\n", philo->id);
-	printf("philo->phs_nb     :%zu:\n", philo->phs_nb);
-	printf("philo->to_die     :%zu:\n", philo->to_die);
-	printf("philo->to_eat     :%zu:\n", philo->to_eat);
-	printf("philo->to_sleep   :%zu:\n", philo->to_sleep);
-	printf("philo->eat_limit  :%zu:\n", philo->eat_limit);
 	printf("===========================================\n");
-}
-
-void	print_struct(t_philo *philo, char **av)
-{
-	bool ck = true;
-	int i = 0;
-	while (i < ft_atoi(av[1]))
-	{
-		print_it(&philo[i], &ck);
-		i++;
-	}
-
+	printf("rules->phs_nb     :%zu:\n", rules->phs_nb);
+	printf("rules->to_die     :%zu:\n", rules->to_die);
+	printf("rules->to_eat     :%zu:\n", rules->to_eat);
+	printf("rules->to_sleep   :%zu:\n", rules->to_sleep);
+	printf("rules->eat_limit  :%ld:\n", rules->eat_limit);
+	printf("===========================================\n");
 }
 
 int	main(int ac, char **av)
 {
-	bool	check;
-	t_philo	philo[PH_MAX];
+	t_rules rules;
 
 	if ((ac == 5 || ac == 6) && is_valid(av, ac) && ft_atoi(av[1]) <= PH_MAX)
 	{
-		if (ac == 6)
-			check = true;
-		init_philo(philo, check, av);
-		print_struct(philo, av);
+		init_rules(&rules, av, ac);
+		print_it(&rules);
 	}
 	else
-		return (print_error());
+		return (error_(av[1]));
 	return (0);
 }
