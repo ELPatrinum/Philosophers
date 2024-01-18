@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:02 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/18 20:32:51 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/18 22:24:34 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	print_it(t_rules *rules)
 
 int	main(int ac, char **av)
 {
-	t_rules rules;
+	t_rules	rules;
 
 	if ((ac == 5 || ac == 6) && is_valid(av, ac) && ft_atoi(av[1]) <= PH_MAX)
 	{

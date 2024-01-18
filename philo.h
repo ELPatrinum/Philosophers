@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:50 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/18 22:20:52 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/18 22:24:22 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ struct s_rules
 //===========_INPUT_============//
 size_t	ft_atoi(const char *str);
 bool	is_valid(char **av, int ac);
-int	error_(char *str);
+int		error_(char *str);
 //===========_UTILS_============//
 void	init_rules(t_rules *rules, char **av, int ac);
 

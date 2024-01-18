@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:48:48 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/18 22:07:46 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/18 22:24:09 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,40 +33,41 @@ static void	assign_forks(t_philo *philo, t_fork *forks, int i, int nbr)
 
 static void	init_forks(t_rules *rules)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	while(++i < rules->phs_nb)
+	while (++i < rules->phs_nb)
 	{
 		if (pthread_mutex_init(&(rules->forks[i].fork), NULL) == -1)
-			{
-				free(rules->forks);
-				free(rules->philos);
-				exit(EXIT_FAILURE);
-			}
+		{
+			free(rules->forks);
+			free(rules->philos);
+			exit(EXIT_FAILURE);
+		}
 		rules->forks->fork_id = i;
 	}
 }
+
 static void	init_philos(t_rules *rules)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	while(++i < rules->phs_nb)
+	while (++i < rules->phs_nb)
 	{
 		rules->philos[i].id = i + 1;
 		rules->philos[i].meal_count = 0;
 		rules->philos[i].full = false;
-		rules->philos[i].rules= rules;
+		rules->philos[i].rules = rules;
 		assign_forks(&(rules->philos[i]), rules->forks, i, rules->phs_nb);
 	}
 }
 
 void	init_rules(t_rules *rules, char **av, int ac)
 {
-	size_t n;
+	size_t	n;
 
-	n = ft_atoi(av[1]);	
+	n = ft_atoi(av[1]);
 	if (ac == 6)
 		rules->eat_limit = (long)ft_atoi(av[5]);
 	else
@@ -80,10 +81,10 @@ void	init_rules(t_rules *rules, char **av, int ac)
 		exit(EXIT_FAILURE);
 	rules->forks = malloc(sizeof(t_fork) * n);
 	if (!rules->forks)
-		{
-			free(rules->philos);
-			exit(EXIT_FAILURE);
-		}
+	{
+		free(rules->philos);
+		exit(EXIT_FAILURE);
+	}
 	init_forks(rules);
 	init_philos(rules);
 }
