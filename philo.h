@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:50 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/18 21:08:16 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/18 22:20:52 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@
 //===========_MACROS_============//
 # define PH_MAX 200
 # define ERROR_MG "\nSomthing is wrong with the arguments\n\t   ( •͡˘ _•͡˘)ノð\n"
-# define ERROR_MG2 "\tUSE : -help\n"
+# define ERROR_MG2 "\t   USE : -help   \n"
 # define CORRECT_MG "\nMUST BE ALL POSITIVE NUMBERS\nTHE VALUE MUST FIT IN INT"
 # define CORRECT_MG2 "Use Your Common Sense -_-\n"
-# define ANSI_COLOR_RED     "\x1b[31m"
+# define ANSI_COLOR_RED     "\033[0;91m"
 # define ANSI_COLOR_GREEN   "\x1b[32m"
 # define ANSI_COLOR_YELLOW  "\x1b[33m"
 # define ANSI_COLOR_BLUE    "\x1b[34m"

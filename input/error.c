@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:59:50 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/18 20:32:28 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/18 22:20:14 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int	ft_strncmp(const char *str1, const char *str2, size_t n)
 static int	print_error(void)
 {
 	printf(ANSI_COLOR_RED ERROR_MG ANSI_COLOR_RESET "\n");
-	printf(ANSI_COLOR_RED ERROR_MG2 ANSI_COLOR_RESET "\n");
+	printf("\033[4;31m" ERROR_MG2 ANSI_COLOR_RESET "\n");
 	return (1);
 }
 
