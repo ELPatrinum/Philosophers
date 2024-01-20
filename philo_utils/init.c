@@ -90,3 +90,4 @@ void	init_rules(t_rules *rules, char **av, int ac)
 	init_forks(rules);
 	init_philos(rules);
 }
+
