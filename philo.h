@@ -39,14 +39,14 @@ typedef struct s_forks
 
 typedef struct s_philo
 {
-	long		meal_count;
-	long		last_meal;
-	bool		full;
-	bool		*all_alive;
+	long		  meal_count;
+	long		  last_meal;
+	bool		  full;
+	bool		  *all_alive;
 	t_fork		*r_fork;
 	t_fork		*l_fork;
 	pthread_t	th;
-	int			id;
+	int		  	id;
 	t_rules		*rules;
 }	t_philo;
 
@@ -56,9 +56,10 @@ struct s_rules
 	size_t		to_die;
 	size_t		to_eat;
 	size_t		to_sleep;
-	long		eat_limit;
-	long		start;
-	bool		all_alive;
+	long		  eat_limit;
+	long		  start;
+	bool		  all_alive;
+  pthread_mutex_t write_mutex;
 	t_fork		*forks;
 	t_philo		*philos;
 	pthread_mutex_t	write_mutex;
