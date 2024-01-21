@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:48:48 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/21 17:40:55 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/21 23:08:55 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	init_philos(t_rules *rules)
 		rules->philos[i].id = i + 1;
 		rules->philos[i].meal_count = 0;
 		rules->philos[i].full = false;
+		rules->philos[i].start = true;
 		rules->philos[i].rules = rules;
 		assign_forks(&(rules->philos[i]), rules->forks, i, rules->phs_nb);
 	}
@@ -77,10 +78,13 @@ void	init_rules(t_rules *rules, char **av, int ac)
 	else
 		rules->eat_limit = -1;
 	rules->phs_nb = n;
-	rules->to_die = ft_atoi(av[2]);
-	rules->to_eat = ft_atoi(av[3]);
-	rules->to_sleep = ft_atoi(av[4]);
+	rules->time = 0;
+	rules->to_die = (ft_atoi(av[2]) * 1000);
+	rules->to_eat = (ft_atoi(av[3]) * 1000);
+	rules->to_sleep = (ft_atoi(av[4]) * 1000);
 	rules->philos = malloc(sizeof(t_philo) * n);
+	rules->all_alive = true;
+	gettimeofday(&(rules->timer.start_time), NULL);
 	if (!rules->philos)
 		exit(EXIT_FAILURE);
 	rules->forks = malloc(sizeof(t_fork) * n);

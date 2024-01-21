@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:02 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/21 17:40:11 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:50:14 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(int ac, char **av)
 	{
 		init_rules(&rules, av, ac);
 		start_philos(&rules);
+		wait_for_philosvoid(&rules);
 		// print_philo(rules.philos, rules.phs_nb);
 		// print_it(&rules);
 	}

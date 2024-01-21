@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:50 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/21 17:39:46 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/21 23:11:25 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdbool.h>
 # include <unistd.h>
 # include <limits.h>
+#include <sys/time.h>
 
 //===========_MACROS_============//
 # define PH_MAX 200
@@ -37,6 +38,11 @@ typedef struct s_forks
 	int				fork_id;
 }	t_fork;
 
+typedef struct
+{
+    struct timeval start_time;
+}	t_timer;
+
 typedef struct s_philo
 {
 	long		  meal_count;
@@ -47,6 +53,7 @@ typedef struct s_philo
 	t_fork		*l_fork;
 	pthread_t	th;
 	int		  	id;
+	bool	start;
 	t_rules		*rules;
 }	t_philo;
 
@@ -56,10 +63,11 @@ struct s_rules
 	size_t		to_die;
 	size_t		to_eat;
 	size_t		to_sleep;
+	size_t		time;
+	t_timer		timer;
 	long		  eat_limit;
 	long		  start;
 	bool		  all_alive;
-  pthread_mutex_t write_mutex;
 	t_fork		*forks;
 	t_philo		*philos;
 	pthread_mutex_t	write_mutex;
@@ -70,6 +78,11 @@ bool	is_valid(char **av, int ac);
 int		error_(char *str);
 //===========_UTILS_============//
 void	init_rules(t_rules *rules, char **av, int ac);
-void start_philos(t_rules *rules);
+void	start_philos(t_rules *rules);
+void	wait_for_philosvoid(t_rules *rules);
+bool	safe_print_t_d(char c,  t_philo *philos, unsigned int ts);
+bool	safe_print_f_e_s(char c, t_philo *philos, unsigned int ts);
+void	ft_usleep(unsigned int usec);
+size_t	get_time(t_timer* timer);
 
 #endif
