@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:50 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/18 22:25:53 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:14:41 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ struct s_rules
 	bool		all_alive;
 	t_fork		*forks;
 	t_philo		*philos;
+	pthread_mutex_t	write_mutex;
 };
 //===========_INPUT_============//
 size_t	ft_atoi(const char *str);

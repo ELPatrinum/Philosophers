@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:48:48 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/18 23:30:06 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:16:55 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ static void	init_forks(t_rules *rules)
 	int	i;
 
 	i = -1;
+	if (pthread_mutex_init(&(rules->write_mutex), NULL) == -1)
+	{
+		exit(EXIT_FAILURE);
+	}
 	while (++i < rules->phs_nb)
 	{
 		if (pthread_mutex_init(&(rules->forks[i].fork), NULL) == -1)
