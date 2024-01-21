@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:02 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/21 17:13:15 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/21 17:40:11 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	main(int ac, char **av)
 	if ((ac == 5 || ac == 6) && is_valid(av, ac) && ft_atoi(av[1]) <= PH_MAX)
 	{
 		init_rules(&rules, av, ac);
+		start_philos(&rules);
 		// print_philo(rules.philos, rules.phs_nb);
 		// print_it(&rules);
 	}

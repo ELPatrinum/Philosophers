@@ -6,7 +6,7 @@
 #    By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/17 13:34:58 by muel-bak          #+#    #+#              #
-#    Updated: 2024/01/18 17:13:42 by muel-bak         ###   ########.fr        #
+#    Updated: 2024/01/21 17:39:25 by muel-bak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC = cc
 FLAGS = -Wall -Wextra -Werror -pthread
 
 SRC = ./input/ft_atoi.c ./input/ft_isdigit.c ./input/error.c\
-	  ./philo_utils/init.c
+	  ./philo_utils/init.c ./philo_utils/philos.c
 
 OBJ = $(SRC:.c=.o) $(MAIN:.c=.o)
 MAIN = philo_main.c
