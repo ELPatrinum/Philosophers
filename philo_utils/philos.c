@@ -6,20 +6,12 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 17:23:00 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/22 02:44:21 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:04:32 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-// bool	sudo_rotine(t_philo *philos, long *count)
-// {
-// 	if (((get_time(&(philos->rules->timer))) - (philos->last_meal)) <= (philos->rules->to_die))
-// 	{
-// 		philos->rules->all_alive = false;
-// 		return (false);
-// 	}
-// }
 
 static bool	odd_routine(t_philo *philos, long *count)
 {
@@ -33,7 +25,10 @@ static bool	odd_routine(t_philo *philos, long *count)
 	ft_usleep(philos->rules->to_eat);
 	
 	(philos->meal_count) += 1;
+	
+	pthread_mutex_lock(&(philos->lst_ml_mtx));
 	(philos->last_meal) = get_time(&(philos->rules->timer));
+	pthread_mutex_unlock(&(philos->lst_ml_mtx));
 	
 	pthread_mutex_unlock(&(philos->r_fork->fork));
 	pthread_mutex_unlock(&(philos->l_fork->fork));
@@ -47,11 +42,6 @@ static bool	odd_routine(t_philo *philos, long *count)
 
 static bool	even_routine(t_philo *philos, long *count)
 {
-	// if (philos->start)
-	// {
-	// 	philos->start = false;
-	// 	ft_usleep(2000);
-	// }
 	pthread_mutex_lock(&(philos->l_fork->fork));
 	safe_print_f_e_s('f', philos, get_time(&(philos->rules->timer)));
 	
@@ -62,7 +52,10 @@ static bool	even_routine(t_philo *philos, long *count)
 	ft_usleep(philos->rules->to_eat);
 	
 	(philos->meal_count) += 1;
+	
+	pthread_mutex_lock(&(philos->lst_ml_mtx));
 	(philos->last_meal) = get_time(&(philos->rules->timer));
+	pthread_mutex_unlock(&(philos->lst_ml_mtx));
 	
 	pthread_mutex_unlock(&(philos->l_fork->fork));
 	pthread_mutex_unlock(&(philos->r_fork->fork));
@@ -74,7 +67,7 @@ static bool	even_routine(t_philo *philos, long *count)
 	return (true);
 }
 
-void	*rise(t_philo *philos)
+void	*philo_routine(t_philo *philos)
 {
 	long count;
 	while(1)
@@ -93,6 +86,30 @@ void	*rise(t_philo *philos)
 	return(NULL);
 }
 
+void	*sudo_routine(t_sudo *sudo)
+{
+	int i;
+	i = 1;
+	while (i >= 0)
+	{
+		i = 0;
+		while (i < sudo->philos->rules->phs_nb)
+		{
+			pthread_mutex_lock(&(sudo->philos[i].lst_ml_mtx));
+			if ((get_time(&(sudo->philos->rules->timer)) - (sudo->philos[i].last_meal)) > (sudo->philos->rules->to_die))
+				{
+					sudo->philos->rules->all_alive = false;
+					safe_print_t_d('d', &(sudo->philos[i]), get_time(&(sudo->philos->rules->timer)));
+					i = -2;
+					break;
+				}
+			pthread_mutex_unlock(&(sudo->philos[i].lst_ml_mtx));
+			i++;
+		}
+	}
+	return (NULL);
+}
+
 
 void	start_philos(t_rules *rules)
 {
@@ -101,10 +118,10 @@ void	start_philos(t_rules *rules)
 	t_philo	*philos = rules->philos;
 	while (i < rules->phs_nb)
 	{
-		pthread_create(&(philos[i].th), NULL, (void * _Nullable)rise, &(philos[i]));
+		pthread_create(&(philos[i].th), NULL, (void * _Nullable)philo_routine, &(philos[i]));
 		i++;
 	}
-	
+	pthread_create(&(rules->sudo.th), NULL, (void * _Nullable)sudo_routine, &(rules->sudo));
 }
 void	wait_for_philosvoid(t_rules *rules)
 {
@@ -116,4 +133,5 @@ void	wait_for_philosvoid(t_rules *rules)
 		pthread_join((philos[i].th), NULL);
 		i++;
 	}
+	pthread_join((rules->sudo.th), NULL);
 }

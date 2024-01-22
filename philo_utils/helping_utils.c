@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 18:28:54 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/21 23:11:41 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/22 19:01:57 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void ft_usleep(unsigned int usec)
         }
     }
 }
-bool	safe_print_f_e_s(char c, t_philo *philos, unsigned int ts)
+void	safe_print_f_e_s(char c, t_philo *philos, unsigned int ts)
 {
 	if (c == 'f')
 	{
@@ -55,10 +55,9 @@ bool	safe_print_f_e_s(char c, t_philo *philos, unsigned int ts)
 		printf("%u %d is sleeping\n",ts, philos->id);
 		pthread_mutex_unlock(&(philos->rules->write_mutex));		
 	}
-	return(false);
 }
 
-bool	safe_print_t_d(char c,  t_philo *philos, unsigned int ts)
+void	safe_print_t_d(char c,  t_philo *philos, unsigned int ts)
 {
 	if (c == 't')
 	{
@@ -72,7 +71,6 @@ bool	safe_print_t_d(char c,  t_philo *philos, unsigned int ts)
 		printf("%u %d died\n",ts, philos->id);
 		pthread_mutex_unlock(&(philos->rules->write_mutex));		
 	}
-	return(true);
 }
 
 size_t get_time(t_timer* timer)
@@ -83,4 +81,11 @@ size_t get_time(t_timer* timer)
     elapsed_time_ms = (current_time.tv_sec - timer->start_time.tv_sec) * 1000 +
                            (current_time.tv_usec - timer->start_time.tv_usec) / 1000;
     return (elapsed_time_ms);
+}
+
+void safe_print(t_sudo *sudo, int i)
+{
+	printf(":%zu:\n", get_time(&(sudo->philos->rules->timer)));
+	printf(":%ld:\n", (sudo->philos[i].last_meal));
+	printf(":%ld:\n", (sudo->philos->rules->to_die));
 }
