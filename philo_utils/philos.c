@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 17:23:00 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/22 19:04:32 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/22 20:24:58 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,21 @@ void	*philo_routine(t_philo *philos)
 void	*sudo_routine(t_sudo *sudo)
 {
 	int i;
-	i = 1;
+
+	i = 0;
 	while (i >= 0)
 	{
 		i = 0;
 		while (i < sudo->philos->rules->phs_nb)
 		{
 			pthread_mutex_lock(&(sudo->philos[i].lst_ml_mtx));
-			if ((get_time(&(sudo->philos->rules->timer)) - (sudo->philos[i].last_meal)) > (sudo->philos->rules->to_die))
+			if ((get_time(&(sudo->philos->rules->timer)) * 1000) - ((sudo->philos[i].last_meal) * 1000) > (sudo->philos->rules->to_die))
 				{
 					sudo->philos->rules->all_alive = false;
 					safe_print_t_d('d', &(sudo->philos[i]), get_time(&(sudo->philos->rules->timer)));
-					i = -2;
+					pthread_mutex_unlock(&(sudo->philos[i].lst_ml_mtx));
+					i = -1;
+					exit(EXIT_FAILURE);
 					break;
 				}
 			pthread_mutex_unlock(&(sudo->philos[i].lst_ml_mtx));

@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 18:28:54 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/22 19:01:57 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/22 20:10:40 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,10 @@ size_t get_time(t_timer* timer)
 
 void safe_print(t_sudo *sudo, int i)
 {
+	pthread_mutex_lock(&(sudo->philos->rules->write_mutex));
 	printf(":%zu:\n", get_time(&(sudo->philos->rules->timer)));
 	printf(":%ld:\n", (sudo->philos[i].last_meal));
 	printf(":%ld:\n", (sudo->philos->rules->to_die));
+	pthread_mutex_unlock(&(sudo->philos->rules->write_mutex));
+	
 }
