@@ -6,7 +6,7 @@
 #    By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/17 13:34:58 by muel-bak          #+#    #+#              #
-#    Updated: 2024/01/22 00:46:19 by muel-bak         ###   ########.fr        #
+#    Updated: 2024/01/22 02:35:53 by muel-bak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ OBJ = $(SRC:.c=.o) $(MAIN:.c=.o)
 MAIN = philo_main.c
 NAME = philo
 
-all: $(NAME)
+all: $(NAME) clean
 $(NAME): $(OBJ) philo.h
 	@echo "\033[1;32mMaking philo...\x1b[0m"
 	@$(CC) $(FLAGS) -o $(NAME) $(OBJ)

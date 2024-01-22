@@ -6,25 +6,40 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 17:23:00 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/22 00:33:24 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/22 02:41:03 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
+// bool	sudo_rotine(t_philo *philos, long *count)
+// {
+// 	if (((get_time(&(philos->rules->timer))) - (philos->last_meal)) <= (philos->rules->to_die))
+// 	{
+// 		philos->rules->all_alive = false;
+// 		return (false);
+// 	}
+// }
+
 static bool	odd_routine(t_philo *philos, long *count)
 {
 	pthread_mutex_lock(&(philos->r_fork->fork));
 	safe_print_f_e_s('f', philos, get_time(&(philos->rules->timer)));
+	
 	pthread_mutex_lock(&(philos->l_fork->fork));
 	safe_print_f_e_s('f', philos, get_time(&(philos->rules->timer)));
 	safe_print_f_e_s('e', philos, get_time(&(philos->rules->timer)));
+	
 	ft_usleep(philos->rules->to_eat);
-	// (philos->meal_count) += 1;
-	// if ((philos->rules->eat_limit) >= 0 && ((philos->meal_count) == (philos->rules->eat_limit)))
-	// 	return (false);
+	
+	(philos->meal_count) += 1;
+	(philos->last_meal) = get_time(&(philos->rules->timer));
+	
 	pthread_mutex_unlock(&(philos->r_fork->fork));
 	pthread_mutex_unlock(&(philos->l_fork->fork));
+	
+	if ((philos->rules->eat_limit) >= 0 && ((philos->meal_count) == (philos->rules->eat_limit)))
+		return (false);
 	safe_print_f_e_s('s', philos, get_time(&(philos->rules->timer)));
 	ft_usleep(philos->rules->to_sleep);
 	return (true);
@@ -32,22 +47,28 @@ static bool	odd_routine(t_philo *philos, long *count)
 
 static bool	even_routine(t_philo *philos, long *count)
 {
-	if (philos->start)
-	{
-		philos->start = false;
-		ft_usleep(2000);
-	}
+	// if (philos->start)
+	// {
+	// 	philos->start = false;
+	// 	ft_usleep(2000);
+	// }
 	pthread_mutex_lock(&(philos->l_fork->fork));
 	safe_print_f_e_s('f', philos, get_time(&(philos->rules->timer)));
+	
 	pthread_mutex_lock(&(philos->r_fork->fork));
 	safe_print_f_e_s('f', philos, get_time(&(philos->rules->timer)));
 	safe_print_f_e_s('e', philos, get_time(&(philos->rules->timer)));
+	
 	ft_usleep(philos->rules->to_eat);
-	// (philos->meal_count) += 1;
-	// if ((philos->rules->eat_limit) >= 0 && ((philos->meal_count) == (philos->rules->eat_limit)))
-	// 	return (false);
+	
+	(philos->meal_count) += 1;
+	(philos->last_meal) = get_time(&(philos->rules->timer));
+	
 	pthread_mutex_unlock(&(philos->l_fork->fork));
 	pthread_mutex_unlock(&(philos->r_fork->fork));
+	
+	if ((philos->rules->eat_limit) >= 0 && ((philos->meal_count) == (philos->rules->eat_limit)))
+		return (false);
 	safe_print_f_e_s('s', philos, get_time(&(philos->rules->timer)));
 	ft_usleep(philos->rules->to_sleep);
 	return (true);

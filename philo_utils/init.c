@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:48:48 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/21 23:08:55 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/22 02:29:56 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static void	init_philos(t_rules *rules)
 		rules->philos[i].full = false;
 		rules->philos[i].start = true;
 		rules->philos[i].rules = rules;
+		rules->philos[i].last_meal = 0;
 		assign_forks(&(rules->philos[i]), rules->forks, i, rules->phs_nb);
 	}
 }
