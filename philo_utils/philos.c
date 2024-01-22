@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 17:23:00 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/22 02:41:03 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/22 02:44:21 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static bool	odd_routine(t_philo *philos, long *count)
 	pthread_mutex_unlock(&(philos->r_fork->fork));
 	pthread_mutex_unlock(&(philos->l_fork->fork));
 	
-	if ((philos->rules->eat_limit) >= 0 && ((philos->meal_count) == (philos->rules->eat_limit)))
-		return (false);
 	safe_print_f_e_s('s', philos, get_time(&(philos->rules->timer)));
 	ft_usleep(philos->rules->to_sleep);
+	if ((philos->rules->eat_limit) >= 0 && ((philos->meal_count) == (philos->rules->eat_limit)))
+		return (false);
 	return (true);
 }
 
@@ -67,10 +67,10 @@ static bool	even_routine(t_philo *philos, long *count)
 	pthread_mutex_unlock(&(philos->l_fork->fork));
 	pthread_mutex_unlock(&(philos->r_fork->fork));
 	
-	if ((philos->rules->eat_limit) >= 0 && ((philos->meal_count) == (philos->rules->eat_limit)))
-		return (false);
 	safe_print_f_e_s('s', philos, get_time(&(philos->rules->timer)));
 	ft_usleep(philos->rules->to_sleep);
+	if ((philos->rules->eat_limit) >= 0 && ((philos->meal_count) == (philos->rules->eat_limit)))
+		return (false);
 	return (true);
 }
 
