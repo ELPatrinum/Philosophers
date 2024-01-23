@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:50 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/22 19:01:07 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/23 01:06:10 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ typedef struct s_philo
 	long		  meal_count;
 	long		  last_meal;
 	pthread_mutex_t	lst_ml_mtx;
-	bool		  full;
 	bool		  *all_alive;
 	t_fork		*r_fork;
 	t_fork		*l_fork;
@@ -68,12 +67,15 @@ typedef struct s_sudo
 
 struct s_rules
 {
-	size_t		phs_nb;
+	long		phs_nb;
 	size_t		to_die;
 	size_t		to_eat;
 	size_t		to_sleep;
 	size_t		time;
 	t_timer		timer;
+	long		keep_time;
+	pthread_mutex_t	full_mtx;
+	long			full;
 	long		  eat_limit;
 	long		  start;
 	bool		  all_alive;
@@ -88,12 +90,11 @@ bool	is_valid(char **av, int ac);
 int		error_(char *str);
 //===========_UTILS_============//
 void	init_rules(t_rules *rules, char **av, int ac);
-void	start_philos(t_rules *rules);
-void	wait_for_philosvoid(t_rules *rules);
+bool	start_philos(t_rules *rules);
+void	wait_for_philos(t_rules *rules);
 void	safe_print_t_d(char c,  t_philo *philos, unsigned int ts);
 void	safe_print_f_e_s(char c, t_philo *philos, unsigned int ts);
 void	ft_usleep(unsigned int usec);
 size_t	get_time(t_timer* timer);
-void	safe_print(t_sudo *sudo, int i);
 
 #endif

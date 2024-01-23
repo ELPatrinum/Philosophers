@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:02 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/22 18:45:44 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/23 01:06:37 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,32 @@ void	print_philo(t_philo *philos, int nbr)
 	}
 }
 
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
-	t_rules	rules;
-
-	if ((ac == 5 || ac == 6) && is_valid(av, ac) && ft_atoi(av[1]) <= PH_MAX)
+    t_rules rules;
+    if ((ac == 5 || ac == 6) && is_valid(av, ac) && ft_atoi(av[1]) <= PH_MAX)
 	{
-		init_rules(&rules, av, ac);
-		start_philos(&rules);
-		wait_for_philosvoid(&rules);
-		// print_philo(rules.philos, rules.phs_nb);
-		// print_it(&rules);
-	}
+        init_rules(&rules, av, ac);
+        if (start_philos(&rules))
+		{
+			while (rules.all_alive);
+		}
+    	 wait_for_philos(&rules);
+    }
 	else
-		return (error_(av[1]));
-	return (0);
+	{
+        return error_(av[0]);
+    }
+    pthread_mutex_destroy(&(rules.write_mutex));
+    pthread_mutex_destroy(&(rules.full_mtx));
+	pthread_mutex_destroy(&(rules.philos->lst_ml_mtx));
+	pthread_mutex_destroy(&(rules.full_mtx));
+	int i = -1;
+	while (++i < (rules.phs_nb))
+	{
+		pthread_mutex_destroy(&(rules.forks[i].fork));
+	}
+    free(rules.forks);
+    free(rules.philos);
+    return 0;
 }

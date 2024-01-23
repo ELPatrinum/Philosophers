@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 18:28:54 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/22 20:10:40 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/23 00:26:10 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ void ft_usleep(unsigned int usec)
         }
     }
 }
+// {
+// 	printf("<<<<%d>>>>\n", usec);
+// 	exit(0);
+// 	struct timeval t;
+// 	gettimeofday(&t, NULL);
+// 	while ()
+// }
 void	safe_print_f_e_s(char c, t_philo *philos, unsigned int ts)
 {
 	if (c == 'f')
@@ -81,14 +88,4 @@ size_t get_time(t_timer* timer)
     elapsed_time_ms = (current_time.tv_sec - timer->start_time.tv_sec) * 1000 +
                            (current_time.tv_usec - timer->start_time.tv_usec) / 1000;
     return (elapsed_time_ms);
-}
-
-void safe_print(t_sudo *sudo, int i)
-{
-	pthread_mutex_lock(&(sudo->philos->rules->write_mutex));
-	printf(":%zu:\n", get_time(&(sudo->philos->rules->timer)));
-	printf(":%ld:\n", (sudo->philos[i].last_meal));
-	printf(":%ld:\n", (sudo->philos->rules->to_die));
-	pthread_mutex_unlock(&(sudo->philos->rules->write_mutex));
-	
 }

@@ -6,13 +6,13 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 16:50:57 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/18 19:59:40 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/22 22:00:38 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-static long	calc_result(long tmp, long result, char c, size_t sign)
+static long	calc_result(long tmp, long result, char c, long sign)
 {
 	tmp = (result * 10) + (c - 48);
 	if (tmp < result && sign == 1)
@@ -25,7 +25,7 @@ static long	calc_result(long tmp, long result, char c, size_t sign)
 size_t	ft_atoi(const char *str)
 {
 	size_t	i;
-	size_t	sign;
+	long	sign;
 	long	result;
 	long	tmp;
 
