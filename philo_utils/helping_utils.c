@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 18:28:54 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/23 05:14:31 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/23 08:50:59 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,18 @@
 
 void	ft_usleep(unsigned int usec)
 {
-	struct timeval	start;
 	struct timeval	now;
-	struct timeval	end;
+	size_t			start;
+	size_t			current;
 
-	gettimeofday(&start, NULL);
-	end.tv_sec = start.tv_sec + (usec / 1000000);
-	end.tv_usec = start.tv_usec + (usec % 1000000);
-	if (end.tv_usec >= 1000000)
-	{
-		end.tv_sec++;
-		end.tv_usec -= 1000000;
-	}
-	while (1)
+	gettimeofday(&now, NULL);
+	current = (now.tv_sec * 1000) + (now.tv_usec / 1000);
+	start = current;
+	while (current - start < (usec / 1000))
 	{
 		gettimeofday(&now, NULL);
-		if (now.tv_sec > end.tv_sec || (now.tv_sec == end.tv_sec
-				&& now.tv_usec >= end.tv_usec))
-		{
-			break ;
-		}
+		current = (now.tv_sec * 1000) + (now.tv_usec / 1000);
+		usleep(100);
 	}
 }
 
@@ -79,9 +71,12 @@ size_t	get_time(t_timer *timer)
 {
 	struct timeval	current_time;
 	size_t			elapsed_time_ms;
+	size_t			tmp_time_ms;
 
 	gettimeofday(&current_time, NULL);
-	elapsed_time_ms = (current_time.tv_sec - timer->start_time.tv_sec) * 1000
-		+ (current_time.tv_usec - timer->start_time.tv_usec) / 1000;
-	return (elapsed_time_ms);
+	elapsed_time_ms = (current_time.tv_sec * 1000)
+		+ (current_time.tv_usec / 1000);
+	tmp_time_ms = (timer->start_time.tv_sec * 1000)
+		+ (timer->start_time.tv_usec / 1000);
+	return (elapsed_time_ms - tmp_time_ms);
 }
