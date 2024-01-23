@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:50 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/23 01:06:10 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/23 04:57:46 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <stdbool.h>
 # include <unistd.h>
 # include <limits.h>
-#include <sys/time.h>
+# include <sys/time.h>
 
 //===========_MACROS_============//
 # define PH_MAX 200
@@ -38,52 +38,52 @@ typedef struct s_forks
 	int				fork_id;
 }	t_fork;
 
-typedef struct
+typedef struct s_timer
 {
-    struct timeval start_time;
+	struct timeval	start_time;
 }	t_timer;
-
 
 typedef struct s_philo
 {
-	long		  meal_count;
-	long		  last_meal;
+	long			meal_count;
+	long			last_meal;
 	pthread_mutex_t	lst_ml_mtx;
-	bool		  *all_alive;
-	t_fork		*r_fork;
-	t_fork		*l_fork;
-	pthread_t	th;
-	int		  	id;
-	bool	start;
-	t_rules		*rules;
+	bool			*all_alive;
+	t_fork			*r_fork;
+	t_fork			*l_fork;
+	pthread_t		th;
+	int				id;
+	bool			start;
+	t_rules			*rules;
 }	t_philo;
 
 typedef struct s_sudo
 {
-	int		sudo_id;
-	t_philo	*philos;
+	int			sudo_id;
+	t_philo		*philos;
 	pthread_t	th;
 }	t_sudo;
 
 struct s_rules
 {
-	long		phs_nb;
-	size_t		to_die;
-	size_t		to_eat;
-	size_t		to_sleep;
-	size_t		time;
-	t_timer		timer;
-	long		keep_time;
+	long			phs_nb;
+	size_t			to_die;
+	size_t			to_eat;
+	size_t			to_sleep;
+	size_t			time;
+	t_timer			timer;
+	long			keep_time;
 	pthread_mutex_t	full_mtx;
 	long			full;
-	long		  eat_limit;
-	long		  start;
-	bool		  all_alive;
-	t_fork		*forks;
-	t_philo		*philos;
-	t_sudo		sudo;
+	long			eat_limit;
+	long			start;
+	bool			all_alive;
+	t_fork			*forks;
+	t_philo			*philos;
+	t_sudo			sudo;
 	pthread_mutex_t	write_mutex;
 };
+
 //===========_INPUT_============//
 size_t	ft_atoi(const char *str);
 bool	is_valid(char **av, int ac);
@@ -92,9 +92,10 @@ int		error_(char *str);
 void	init_rules(t_rules *rules, char **av, int ac);
 bool	start_philos(t_rules *rules);
 void	wait_for_philos(t_rules *rules);
-void	safe_print_t_d(char c,  t_philo *philos, unsigned int ts);
+void	safe_print_t_d(char c, t_philo *philos, unsigned int ts);
 void	safe_print_f_e_s(char c, t_philo *philos, unsigned int ts);
 void	ft_usleep(unsigned int usec);
-size_t	get_time(t_timer* timer);
+size_t	get_time(t_timer *timer);
+void	*sudo_routine(void *sdo);
 
 #endif

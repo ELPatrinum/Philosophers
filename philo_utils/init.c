@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:48:48 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/23 01:06:14 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/23 05:15:03 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	assign_forks(t_philo *philo, t_fork *forks, int i, int nbr)
 	if (!philo || !forks)
 	{
 		printf("assign_forks : NULL ptr\n");
-		return;
+		return ;
 	}
 	if (i == nbr - 1)
 	{
@@ -38,11 +38,11 @@ static void	init_forks(t_rules *rules)
 	i = -1;
 	if (pthread_mutex_init(&(rules->write_mutex), NULL) == -1)
 	{
-		return;
+		return ;
 	}
 	if (pthread_mutex_init(&(rules->full_mtx), NULL) == -1)
 	{
-		return;
+		return ;
 	}
 	while (++i < (rules->phs_nb))
 	{
@@ -50,7 +50,7 @@ static void	init_forks(t_rules *rules)
 		{
 			free(rules->forks);
 			free(rules->philos);
-			return;
+			return ;
 		}
 		rules->forks[i].fork_id = i;
 	}
@@ -69,7 +69,7 @@ static void	init_philos(t_rules *rules)
 		rules->philos[i].rules = rules;
 		rules->philos[i].last_meal = 0;
 		if (pthread_mutex_init(&(rules->philos[i].lst_ml_mtx), NULL) == -1)
-			return;
+			return ;
 		assign_forks(&(rules->philos[i]), rules->forks, i, rules->phs_nb);
 	}
 	rules->sudo.sudo_id = -1;
@@ -94,14 +94,13 @@ void	init_rules(t_rules *rules, char **av, int ac)
 	rules->all_alive = true;
 	rules->full = 0;
 	if (!rules->philos)
-		return;
+		return ;
 	rules->forks = malloc(sizeof(t_fork) * n);
 	if (!rules->forks)
 	{
 		free(rules->philos);
-		return;
+		return ;
 	}
 	init_forks(rules);
 	init_philos(rules);
 }
-
