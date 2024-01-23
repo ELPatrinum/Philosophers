@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:02 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/23 01:32:39 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/23 01:34:02 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ void	print_philo(t_philo *philos, int nbr)
 	}
 }
 
-void	f()
-{
-	system("leaks philo");
-}
+// void	f()
+// {
+// 	system("leaks philo");
+// }
 
 int main(int ac, char **av)
 {
-	atexit(f);
+	// atexit(f);
     t_rules rules;
     if ((ac == 5 || ac == 6) && is_valid(av, ac) && ft_atoi(av[1]) <= PH_MAX)
 	{
