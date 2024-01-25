@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 18:28:54 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/23 08:50:59 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/25 04:33:01 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_usleep(unsigned int usec)
 	{
 		gettimeofday(&now, NULL);
 		current = (now.tv_sec * 1000) + (now.tv_usec / 1000);
-		usleep(100);
+		usleep(50);
 	}
 }
 
@@ -63,7 +63,6 @@ void	safe_print_t_d(char c, t_philo *philos, unsigned int ts)
 	{
 		pthread_mutex_lock(&(philos->rules->write_mutex));
 		printf("%u %d died\n", ts, philos->id);
-		pthread_mutex_unlock(&(philos->rules->write_mutex));
 	}
 }
 

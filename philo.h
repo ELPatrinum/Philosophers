@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:50 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/23 04:57:46 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/25 05:08:23 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ struct s_rules
 	long			full;
 	long			eat_limit;
 	long			start;
+	pthread_mutex_t	alive_mutex;
 	bool			all_alive;
 	t_fork			*forks;
 	t_philo			*philos;
@@ -89,7 +90,7 @@ size_t	ft_atoi(const char *str);
 bool	is_valid(char **av, int ac);
 int		error_(char *str);
 //===========_UTILS_============//
-void	init_rules(t_rules *rules, char **av, int ac);
+bool	init_rules(t_rules *rules, char **av, int ac);
 bool	start_philos(t_rules *rules);
 void	wait_for_philos(t_rules *rules);
 void	safe_print_t_d(char c, t_philo *philos, unsigned int ts);
