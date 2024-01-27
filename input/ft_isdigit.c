@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 11:25:47 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/18 20:01:02 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:35:17 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	l_z(char *str)
 
 bool	fits(long nbr)
 {
-	if (nbr > INT_MAX || nbr < INT_MIN)
+	if (nbr > INT_MAX || nbr < INT_MIN || nbr == 0)
 		return (false);
 	else
 		return (true);

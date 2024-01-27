@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 17:23:00 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/25 09:59:26 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:33:15 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	*philo_routine(void *ph)
 	philos = (t_philo *)ph;
 	if ((philos->id) % 2 == 0)
 	{
-		ft_usleep(100 * 1000);
+		ft_usleep((philos->rules->phs_nb) * 1000);
 	}
 	while (1)
 	{
