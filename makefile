@@ -6,7 +6,7 @@
 #    By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/01/17 13:34:58 by muel-bak          #+#    #+#              #
-#    Updated: 2024/01/28 08:00:38 by muel-bak         ###   ########.fr        #
+#    Updated: 2024/01/28 11:02:38 by muel-bak         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,4 +57,4 @@ fclean: fclean_msg
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus pre_message
+.PHONY: all clean fclean re
