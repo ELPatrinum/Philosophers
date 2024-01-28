@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 10:07:29 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 17:42:59 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/28 17:55:13 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ int	main(int ac, char **av)
 		while (++i < rules.phs_nb)
 		{
 			waitpid( -1, &result, 0);
+			if (WIFEXITED(result) && WEXITSTATUS(result) == 200)
+            	break;
 		}
-	
+		
 		i = -1;
 		while (++i < rules.phs_nb)
 		{
