@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/28 16:18:44 by muel-bak          #+#    #+#             */
+/*   Updated: 2024/01/28 16:20:57 by muel-bak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
@@ -44,7 +56,7 @@ typedef struct s_rules
 
 typedef struct s_philo
 {
-	t_rules	*data;
+	t_rules			*data;
 	pid_t			pid;
 	unsigned int	eating_time;
 	unsigned int	next_meal;
@@ -55,9 +67,9 @@ typedef struct s_philo
 }				t_philo;
 
 //===========_INPUT_============//
-size_t	ft_atoi(const char *str);
-bool	is_valid(char **av, int ac);
-int		error_(char *str);
+size_t			ft_atoi(const char *str);
+bool			is_valid(char **av, int ac);
+int				error_(char *str);
 //===========_UTILS_============//
 int				init_(char **av, int ac, t_rules *rules);
 void			ft_usleep(unsigned int usec);

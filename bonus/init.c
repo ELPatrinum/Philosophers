@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/28 16:18:29 by muel-bak          #+#    #+#             */
+/*   Updated: 2024/01/28 16:19:02 by muel-bak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	init_(char **av, int ac, t_rules *rules)
@@ -21,7 +33,6 @@ int	init_(char **av, int ac, t_rules *rules)
 	rules->time_to_sleep = ft_atoi(av[4]);
 	return (0);
 }
-
 
 void	create_semaphores(t_rules *rules)
 {

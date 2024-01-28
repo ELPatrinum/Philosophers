@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/28 16:18:49 by muel-bak          #+#    #+#             */
+/*   Updated: 2024/01/28 16:21:16 by muel-bak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	ft_usleep(unsigned int usec)
@@ -57,7 +69,7 @@ void	safe_print_t_d(char c, t_philo *philos, unsigned int ts)
 	}
 	else if (c == 'd')
 	{
-		sem_wait(philos->data->write);;
+		sem_wait(philos->data->write);
 		printf("%u %d died\n", ts, philos->index + 1);
 	}
 }

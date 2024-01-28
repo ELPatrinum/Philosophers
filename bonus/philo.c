@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/28 16:18:35 by muel-bak          #+#    #+#             */
+/*   Updated: 2024/01/28 16:20:34 by muel-bak         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 static void	*is_dead(void *arg)
@@ -9,7 +21,7 @@ static void	*is_dead(void *arg)
 	{
 		sem_wait(philo->data->death);
 		if (philo->next_meal < get_time() && ((philo->data->eat_max != -1)
-			 && (philo->meal_count < philo->data->eat_max)))
+				&& (philo->meal_count < philo->data->eat_max)))
 		{
 			safe_print_t_d('d', philo, (get_time() - philo->data->start));
 			sem_post(philo->data->stop);
