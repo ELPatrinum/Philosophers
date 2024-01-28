@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:18:44 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 18:01:27 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/28 18:38:27 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <signal.h>
-
-# define YES 1
-# define NO 0
 
 # define PH_MAX 200
 

@@ -1,45 +1,58 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.c                                            :+:      :+:    :+:   */
+/*   philos.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/28 16:18:35 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 18:02:00 by muel-bak         ###   ########.fr       */
+/*   Created: 2024/01/21 17:23:00 by muel-bak          #+#    #+#             */
+/*   Updated: 2024/01/28 18:29:39 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
-static void	check_(t_philo *philos)
+static bool	check_(t_philo *philos)
 {
 	if ((philos->rules->eat_limit) >= 0 && ((philos->meal_count)
 			>= (philos->rules->eat_limit)))
 	{
-		exit (300);
+		pthread_mutex_lock(&(philos->rules->full_mtx));
+		(philos->rules->full) += 1;
+		pthread_mutex_unlock(&(philos->rules->full_mtx));
+		(philos->meal_count) = -3;
+		return (false);
 	}
-	if ((get_time(&(philos->rules->timer)) * 1000)
-		- ((philos->last_meal) * 1000) > (philos->rules->to_die))
+	pthread_mutex_lock(&(philos->rules->alive_mutex));
+	if (!(philos->rules->all_alive))
 	{
-		safe_print_t_d('d', philos,
-			get_time(&(philos->rules->timer)));
-		exit (200);
+		pthread_mutex_unlock(&(philos->rules->alive_mutex));
+		return (false);
 	}
+	pthread_mutex_unlock(&(philos->rules->alive_mutex));
+	return (true);
 }
 
-static void	routine(t_philo *philos)
+static bool	routine(t_philo *philos)
 {
+	pthread_mutex_lock(&(philos->r_fork->fork));
 	safe_print_f_e_s('f', philos, get_time(&(philos->rules->timer)));
+	pthread_mutex_lock(&(philos->l_fork->fork));
 	safe_print_f_e_s('f', philos, get_time(&(philos->rules->timer)));
 	(philos->meal_count) += 1;
 	safe_print_f_e_s('e', philos, get_time(&(philos->rules->timer)));
+	pthread_mutex_lock(&(philos->lst_ml_mtx));
 	(philos->last_meal) = get_time(&(philos->rules->timer));
+	pthread_mutex_unlock(&(philos->lst_ml_mtx));
 	ft_usleep((unsigned int)(philos->rules->to_eat));
+	pthread_mutex_unlock(&(philos->r_fork->fork));
+	pthread_mutex_unlock(&(philos->l_fork->fork));
 	safe_print_f_e_s('s', philos, get_time(&(philos->rules->timer)));
 	ft_usleep(philos->rules->to_sleep);
 	safe_print_t_d('t', philos, get_time(&(philos->rules->timer)));
-	check_(philos);
+	if (!check_(philos))
+		return (false);
+	return (true);
 }
 
 void	*philo_routine(void *ph)
@@ -53,12 +66,13 @@ void	*philo_routine(void *ph)
 	}
 	while (1)
 	{
-		routine(philos);
+		if (!routine(philos))
+			break ;
 	}
 	return (NULL);
 }
 
-void	start_philos(t_rules *rules)
+bool	start_philos(t_rules *rules)
 {
 	t_philo	*philos;
 	int		i;
@@ -68,25 +82,24 @@ void	start_philos(t_rules *rules)
 	gettimeofday(&(rules->timer.start_time), NULL);
 	while (i < rules->phs_nb)
 	{
-		philos[i].pid = fork();
-		if (philos[i].pid == 0)
-		{
-			philo_routine(philos + i);
-		}
+		pthread_create(&(philos[i].th), NULL, philo_routine, &(philos[i]));
 		i++;
-		ft_usleep(100);
 	}
+	pthread_create(&(rules->sudo.th), NULL, sudo_routine, &(rules->sudo));
+	return (true);
 }
 
-void	wait_for_philos(t_rules *rules, int *result)
+void	wait_for_philos(t_rules *rules)
 {
-	int	i;
+	t_philo	*philos;
+	int		i;
 
-	i = -1;
-	while (++i < rules->phs_nb)
+	i = 0;
+	philos = rules->philos;
+	while (i < rules->phs_nb)
 	{
-		waitpid(-1, result, 0);
-		if (WIFEXITED(*result) && WEXITSTATUS(*result) == 200)
-			break ;
+		pthread_detach((philos[i].th));
+		i++;
 	}
+	pthread_join((rules->sudo.th), NULL);
 }
