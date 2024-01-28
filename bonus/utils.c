@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:18:49 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 16:21:16 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/28 17:38:27 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,33 +29,39 @@ void	ft_usleep(unsigned int usec)
 	}
 }
 
-unsigned int	get_time(void)
+size_t	get_time(t_timer *timer)
 {
 	struct timeval	current_time;
+	size_t			elapsed_time_ms;
+	size_t			tmp_time_ms;
 
 	gettimeofday(&current_time, NULL);
-	return ((current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
+	elapsed_time_ms = (current_time.tv_sec * 1000)
+		+ (current_time.tv_usec / 1000);
+	tmp_time_ms = (timer->start_time.tv_sec * 1000)
+		+ (timer->start_time.tv_usec / 1000);
+	return (elapsed_time_ms - tmp_time_ms);
 }
 
 void	safe_print_f_e_s(char c, t_philo *philos, unsigned int ts)
 {
 	if (c == 'f')
 	{
-		sem_wait(philos->data->write);
-		printf("%u %d has taken a fork\n", ts, philos->index + 1);
-		sem_post(philos->data->write);
+		sem_wait((philos->rules->write_sem));
+		printf("%u %d has taken a fork\n", ts, philos->id);
+		sem_post(philos->rules->write_sem);
 	}
 	else if (c == 'e')
 	{
-		sem_wait(philos->data->write);
-		printf("%u %d is eating\n", ts, philos->index + 1);
-		sem_post(philos->data->write);
+		sem_wait(philos->rules->write_sem);
+		printf("%u %d is eating\n", ts, philos->id);
+		sem_post(philos->rules->write_sem);
 	}
 	else if (c == 's')
 	{
-		sem_wait(philos->data->write);
-		printf("%u %d is sleeping\n", ts, philos->index + 1);
-		sem_post(philos->data->write);
+		sem_wait(philos->rules->write_sem);
+		printf("%u %d is sleeping\n", ts, philos->id);
+		sem_post(philos->rules->write_sem);
 	}
 }
 
@@ -63,13 +69,13 @@ void	safe_print_t_d(char c, t_philo *philos, unsigned int ts)
 {
 	if (c == 't')
 	{
-		sem_wait(philos->data->write);
-		printf("%u %d is thinking\n", ts, philos->index + 1);
-		sem_post(philos->data->write);
+		sem_wait(philos->rules->write_sem);
+		printf("%u %d is thinking\n", ts, philos->id);
+		sem_post(philos->rules->write_sem);
 	}
 	else if (c == 'd')
 	{
-		sem_wait(philos->data->write);
-		printf("%u %d died\n", ts, philos->index + 1);
+		sem_wait(philos->rules->write_sem);
+		printf("%u %d died\n", ts, philos->id);
 	}
 }

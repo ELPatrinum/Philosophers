@@ -6,71 +6,87 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:18:29 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 16:19:02 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/28 17:17:12 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	init_(char **av, int ac, t_rules *rules)
+#include "../philo.h"
+
+static void	assign_forks(t_philo *philo, t_fork *forks, int i, int nbr)
 {
-	if (ac == 5)
+	if (!philo || !forks)
 	{
-		rules->eat_max = -1;
-		rules->eat_counter = -1;
-		rules->max_eat = -1;
+		printf("assign_forks : NULL ptr\n");
+		return ;
 	}
-	else
+	if (i == nbr - 1)
 	{
-		rules->philo_numbers = ft_atoi(av[1]);
-		rules->eat_max = ft_atoi(av[5]);
-		rules->eat_counter = 0;
-		rules->max_eat = rules->eat_max * rules->philo_numbers;
+		philo->r_fork = &forks[nbr - 1];
+		philo->l_fork = &forks[0];
 	}
-	rules->philo_numbers = ft_atoi(av[1]);
-	rules->time_to_die = ft_atoi(av[2]);
-	rules->time_to_eat = ft_atoi(av[3]);
-	rules->time_to_sleep = ft_atoi(av[4]);
-	return (0);
+	else if (i >= 0)
+	{
+		philo->r_fork = &forks[i];
+		philo->l_fork = &forks[i + 1];
+	}
 }
 
-void	create_semaphores(t_rules *rules)
+static bool	init_forks(t_rules *rules)
 {
-	sem_unlink("death");
-	rules->death = sem_open("death", O_CREAT, 0600, 1);
-	sem_unlink("write");
-	rules->write = sem_open("write", O_CREAT, 0600, 1);
-	sem_unlink("stop");
-	rules->stop = sem_open("stop", O_CREAT, 0600, 1);
-	sem_unlink("forks");
-	rules->forks = sem_open("forks", O_CREAT, 0600,
-			rules->philo_numbers);
-}
-
-t_philo	*ft_philo_init(t_rules *rules)
-{
-	t_philo	*philo;
-	int		i;
+	long	i;
 
 	i = -1;
-	philo = malloc(sizeof(t_philo) * rules->philo_numbers);
-	if (!philo)
-		return (NULL);
-	rules->death = NULL;
-	rules->stop = NULL;
-	rules->write = NULL;
-	rules->forks = NULL;
-	while (++i < rules->philo_numbers)
+	rules->write_sem = sem_open("write", O_CREAT, 0600, 1);
+	
+	while (++i < (rules->phs_nb))
 	{
-		philo[i].index = i;
-		philo[i].is_dead = NO;
-		philo[i].data = rules;
-		philo[i].pid = -1;
-		philo[i].meal_count = 0;
-		if (rules->eat_max == -1)
-			philo[i].eat_max = -1;
-		else
-			philo[i].eat_max = rules->eat_max;
+		rules->forks[i].fork = sem_open("fork", O_CREAT, 0600, 1);
+		rules->forks[i].fork_id = i;
 	}
-	return (philo);
+	return (true);
+}
+
+static bool	init_philos(t_rules *rules)
+{
+	long	i;
+
+	i = -1;
+	while (++i < (rules->phs_nb))
+	{
+		rules->philos[i].id = i + 1;
+		rules->philos[i].meal_count = 0;
+		rules->philos[i].start = true;
+		rules->philos[i].rules = rules;
+		rules->philos[i].last_meal = 0;
+		assign_forks(&(rules->philos[i]), rules->forks, i, rules->phs_nb);
+	}
+	return (true);
+}
+
+bool	init_rules(t_rules *rules, char **av, int ac)
+{
+	if (ac == 6)
+		rules->eat_limit = (long)ft_atoi(av[5]);
+	else
+		rules->eat_limit = -1;
+	rules->phs_nb = ft_atoi(av[1]);
+	rules->time = 0;
+	rules->to_die = (ft_atoi(av[2]) * 1000);
+	rules->to_eat = (ft_atoi(av[3]) * 1000);
+	rules->to_sleep = (ft_atoi(av[4]) * 1000);
+	rules->full = 0;
+	rules->philos = malloc(sizeof(t_philo) * ft_atoi(av[1]));
+	if (!(rules->philos))
+		return (false);
+	rules->forks = malloc(sizeof(t_fork) * ft_atoi(av[1]));
+	if (!rules->forks)
+	{
+		free(rules->philos);
+		return (false);
+	}
+	if (!init_forks(rules) ||!init_philos(rules))
+		return (false);
+	return (true);
 }

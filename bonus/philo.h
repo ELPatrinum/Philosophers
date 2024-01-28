@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:18:44 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 16:20:57 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/28 17:38:17 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,46 +38,61 @@
 # define ANSI_COLOR_GREEN   "\x1b[32m"
 # define ANSI_COLOR_RESET   "\x1b[0m"
 
-typedef struct s_rules
+typedef struct s_rules	t_rules;
+
+typedef struct s_timer
 {
-	sem_t			*forks;
-	sem_t			*write;
-	sem_t			*death;
-	sem_t			*stop;
-	unsigned int	start;
-	int				philo_numbers;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				eat_max;
-	int				max_eat;
-	int				eat_counter;
-}				t_rules;
+	struct timeval	start_time;
+}	t_timer;
+
+typedef struct s_forks
+{
+	sem_t	*fork;
+	int		fork_id;
+}	t_fork;
 
 typedef struct s_philo
 {
-	t_rules			*data;
+	long			meal_count;
+	long			last_meal;
+	t_fork			*r_fork;
+	t_fork			*l_fork;
 	pid_t			pid;
-	unsigned int	eating_time;
-	unsigned int	next_meal;
-	int				index;
-	int				is_dead;
-	int				eat_max;
-	int				meal_count;
-}				t_philo;
+	int				id;
+	bool			start;
+	t_rules			*rules;
+}	t_philo;
+
+struct s_rules
+{
+	long			phs_nb;
+	size_t			to_die;
+	size_t			to_eat;
+	size_t			to_sleep;
+	size_t			time;
+	t_timer			timer;
+	long			keep_time;
+	long			full;
+	long			eat_limit;
+	long			start;
+	t_fork			*forks;
+	t_philo			*philos;
+	sem_t			*write_sem;
+};
+
 
 //===========_INPUT_============//
 size_t			ft_atoi(const char *str);
 bool			is_valid(char **av, int ac);
 int				error_(char *str);
 //===========_UTILS_============//
-int				init_(char **av, int ac, t_rules *rules);
-void			ft_usleep(unsigned int usec);
-unsigned int	get_time(void);
-void			start_process(t_rules *rules, t_philo *philo);
-void			safe_print_f_e_s(char c, t_philo *philos, unsigned int ts);
-void			safe_print_t_d(char c, t_philo *philos, unsigned int ts);
-t_philo			*ft_philo_init(t_rules *rules);
-void			create_semaphores(t_rules *rules);
+bool	init_rules(t_rules *rules, char **av, int ac);
+void	start_philos(t_rules *rules);
+void	wait_for_philos(t_rules *rules);
+void	safe_print_t_d(char c, t_philo *philos, unsigned int ts);
+void	safe_print_f_e_s(char c, t_philo *philos, unsigned int ts);
+void	ft_usleep(unsigned int usec);
+size_t	get_time(t_timer *timer);
+void	*sudo_routine(void *sdo);
 
 #endif
