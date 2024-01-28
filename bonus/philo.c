@@ -8,7 +8,8 @@ static void	*is_dead(void *arg)
 	while (1)
 	{
 		sem_wait(philo->data->death);
-		if (philo->next_meal < get_time() && ((philo->data->eat_max != -1) && (philo->meal_count < philo->data->eat_max)))
+		if (philo->next_meal < get_time() && ((philo->data->eat_max != -1)
+			 && (philo->meal_count < philo->data->eat_max)))
 		{
 			safe_print_t_d('d', philo, (get_time() - philo->data->start));
 			sem_post(philo->data->stop);
@@ -17,7 +18,7 @@ static void	*is_dead(void *arg)
 		sem_post(philo->data->death);
 		sem_wait(philo->data->death);
 		if ((philo->data->eat_max != -1)
-			&& (philo->data->eat_counter >= philo->data->max_eat))
+			&& (philo->data->eat_counter == philo->data->max_eat))
 		{
 			sem_post(philo->data->stop);
 			break ;
@@ -50,11 +51,6 @@ static void	philo_routine(t_philo *philo)
 			+ (unsigned int)philo->data->time_to_die;
 		sem_post(philo->data->forks);
 		sem_post(philo->data->forks);
-		// if ((philo->data->eat_max != -1) && (philo->meal_count >= philo->data->eat_max))
-		// {
-		// 	while(1)
-		// 		sleep(100);
-		// }
 		safe_print_f_e_s('s', philo, (get_time() - philo->data->start));
 		ft_usleep(philo->data->time_to_sleep * 1000);
 		safe_print_t_d('t', philo, (get_time() - philo->data->start));
