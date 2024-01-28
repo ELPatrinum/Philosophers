@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:18:29 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 17:53:04 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/28 17:56:17 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static bool	init_forks(t_rules *rules)
 	i = -1;
 	sem_unlink("write");
 	rules->write_sem = sem_open("write", O_CREAT, 0600, 1);
-	
 	while (++i < (rules->phs_nb))
 	{
 		sem_unlink("fork");

@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:18:35 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 17:34:54 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/28 18:02:00 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,18 @@ void	start_philos(t_rules *rules)
 		}
 		i++;
 		ft_usleep(100);
+	}
+}
+
+void	wait_for_philos(t_rules *rules, int *result)
+{
+	int	i;
+
+	i = -1;
+	while (++i < rules->phs_nb)
+	{
+		waitpid(-1, result, 0);
+		if (WIFEXITED(*result) && WEXITSTATUS(*result) == 200)
+			break ;
 	}
 }

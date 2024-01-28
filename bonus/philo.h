@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:18:44 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 17:38:17 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/28 18:01:27 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,19 +80,18 @@ struct s_rules
 	sem_t			*write_sem;
 };
 
-
 //===========_INPUT_============//
-size_t			ft_atoi(const char *str);
-bool			is_valid(char **av, int ac);
-int				error_(char *str);
+size_t	ft_atoi(const char *str);
+bool	is_valid(char **av, int ac);
+int		error_(char *str);
 //===========_UTILS_============//
 bool	init_rules(t_rules *rules, char **av, int ac);
 void	start_philos(t_rules *rules);
-void	wait_for_philos(t_rules *rules);
 void	safe_print_t_d(char c, t_philo *philos, unsigned int ts);
 void	safe_print_f_e_s(char c, t_philo *philos, unsigned int ts);
 void	ft_usleep(unsigned int usec);
 size_t	get_time(t_timer *timer);
 void	*sudo_routine(void *sdo);
+void	wait_for_philos(t_rules *rules, int *result);
 
 #endif
