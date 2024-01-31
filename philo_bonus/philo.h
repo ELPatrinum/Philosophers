@@ -21,9 +21,11 @@
 # include <stdlib.h>
 # include <string.h>
 # include <sys/time.h>
+# include <sys/wait.h>
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <signal.h>
+# include <limits.h>
 
 # define PH_MAX 200
 
@@ -45,15 +47,13 @@ typedef struct s_timer
 typedef struct s_forks
 {
 	sem_t	*fork;
-	int		fork_id;
 }	t_fork;
 
 typedef struct s_philo
 {
 	long			meal_count;
 	long			last_meal;
-	t_fork			*r_fork;
-	t_fork			*l_fork;
+	t_fork		*fork;
 	pid_t			pid;
 	int				id;
 	bool			start;

@@ -12,40 +12,12 @@
 
 #include "philo.h"
 
-#include "../philo.h"
-
-static void	assign_forks(t_philo *philo, t_fork *forks, int i, int nbr)
-{
-	if (!philo || !forks)
-	{
-		printf("assign_forks : NULL ptr\n");
-		return ;
-	}
-	if (i == nbr - 1)
-	{
-		philo->r_fork = &forks[nbr - 1];
-		philo->l_fork = &forks[0];
-	}
-	else if (i >= 0)
-	{
-		philo->r_fork = &forks[i];
-		philo->l_fork = &forks[i + 1];
-	}
-}
-
 static bool	init_forks(t_rules *rules)
 {
-	long	i;
-
-	i = -1;
 	sem_unlink("write");
 	rules->write_sem = sem_open("write", O_CREAT, 0600, 1);
-	while (++i < (rules->phs_nb))
-	{
-		sem_unlink("fork");
-		rules->forks[i].fork = sem_open("fork", O_CREAT, 0600, 1);
-		rules->forks[i].fork_id = i;
-	}
+	sem_unlink("fork");
+	rules->forks->fork = sem_open("fork", O_CREAT, 0600, (rules->phs_nb));
 	return (true);
 }
 
@@ -61,7 +33,7 @@ static bool	init_philos(t_rules *rules)
 		rules->philos[i].start = true;
 		rules->philos[i].rules = rules;
 		rules->philos[i].last_meal = 0;
-		assign_forks(&(rules->philos[i]), rules->forks, i, rules->phs_nb);
+    rules->philos[i].fork = rules->forks;
 	}
 	return (true);
 }
@@ -81,7 +53,7 @@ bool	init_rules(t_rules *rules, char **av, int ac)
 	rules->philos = malloc(sizeof(t_philo) * ft_atoi(av[1]));
 	if (!(rules->philos))
 		return (false);
-	rules->forks = malloc(sizeof(t_fork) * ft_atoi(av[1]));
+	rules->forks = malloc(sizeof(t_fork));
 	if (!rules->forks)
 	{
 		free(rules->philos);

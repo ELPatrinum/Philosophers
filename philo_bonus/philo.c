@@ -30,16 +30,16 @@ static void	check_(t_philo *philos)
 
 static void	routine(t_philo *philos)
 {
-	sem_wait(philos->r_fork->fork);
+	sem_wait(philos->fork->fork);
 	safe_print_f_e_s('f', philos, get_time(&(philos->rules->timer)));
-	sem_wait(philos->l_fork->fork);
+	sem_wait(philos->fork->fork);
 	safe_print_f_e_s('f', philos, get_time(&(philos->rules->timer)));
 	(philos->meal_count) += 1;
 	safe_print_f_e_s('e', philos, get_time(&(philos->rules->timer)));
 	(philos->last_meal) = get_time(&(philos->rules->timer));
 	ft_usleep((unsigned int)(philos->rules->to_eat));
-	sem_post(philos->r_fork->fork);
-	sem_post(philos->l_fork->fork);
+	sem_post(philos->fork->fork);
+	sem_post(philos->fork->fork);
 	safe_print_f_e_s('s', philos, get_time(&(philos->rules->timer)));
 	ft_usleep(philos->rules->to_sleep);
 	safe_print_t_d('t', philos, get_time(&(philos->rules->timer)));
