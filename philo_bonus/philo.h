@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:18:44 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 18:38:27 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/01/31 21:05:42 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ struct s_rules
 size_t	ft_atoi(const char *str);
 bool	is_valid(char **av, int ac);
 int		error_(char *str);
+void	if_one(char **av);
 //===========_UTILS_============//
 bool	init_rules(t_rules *rules, char **av, int ac);
 void	start_philos(t_rules *rules);
