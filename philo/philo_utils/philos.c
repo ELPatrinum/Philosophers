@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 17:23:00 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 18:29:39 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/02/01 13:34:32 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static bool	check_(t_philo *philos)
 {
+	pthread_mutex_lock(&(philos->ml_ct_mtx));
 	if ((philos->rules->eat_limit) >= 0 && ((philos->meal_count)
 			>= (philos->rules->eat_limit)))
 	{
@@ -21,8 +22,10 @@ static bool	check_(t_philo *philos)
 		(philos->rules->full) += 1;
 		pthread_mutex_unlock(&(philos->rules->full_mtx));
 		(philos->meal_count) = -3;
+		pthread_mutex_unlock(&(philos->ml_ct_mtx));
 		return (false);
 	}
+	pthread_mutex_unlock(&(philos->ml_ct_mtx));
 	pthread_mutex_lock(&(philos->rules->alive_mutex));
 	if (!(philos->rules->all_alive))
 	{
@@ -39,7 +42,9 @@ static bool	routine(t_philo *philos)
 	safe_print_f_e_s('f', philos, get_time(&(philos->rules->timer)));
 	pthread_mutex_lock(&(philos->l_fork->fork));
 	safe_print_f_e_s('f', philos, get_time(&(philos->rules->timer)));
+	pthread_mutex_lock(&(philos->ml_ct_mtx));
 	(philos->meal_count) += 1;
+	pthread_mutex_unlock(&(philos->ml_ct_mtx));
 	safe_print_f_e_s('e', philos, get_time(&(philos->rules->timer)));
 	pthread_mutex_lock(&(philos->lst_ml_mtx));
 	(philos->last_meal) = get_time(&(philos->rules->timer));
@@ -72,7 +77,7 @@ void	*philo_routine(void *ph)
 	return (NULL);
 }
 
-bool	start_philos(t_rules *rules)
+void	start_philos(t_rules *rules)
 {
 	t_philo	*philos;
 	int		i;
@@ -86,7 +91,6 @@ bool	start_philos(t_rules *rules)
 		i++;
 	}
 	pthread_create(&(rules->sudo.th), NULL, sudo_routine, &(rules->sudo));
-	return (true);
 }
 
 void	wait_for_philos(t_rules *rules)

@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:48:48 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/25 05:20:49 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/02/01 12:22:43 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ static bool	init_philos(t_rules *rules)
 		rules->philos[i].rules = rules;
 		rules->philos[i].last_meal = 0;
 		if (pthread_mutex_init(&(rules->philos[i].lst_ml_mtx), NULL) == -1)
+			return (false);
+		if (pthread_mutex_init(&(rules->philos[i].ml_ct_mtx), NULL) == -1)
 			return (false);
 		assign_forks(&(rules->philos[i]), rules->forks, i, rules->phs_nb);
 	}

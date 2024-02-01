@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 09:36:50 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 10:42:21 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/02/01 13:34:40 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_timer
 typedef struct s_philo
 {
 	long			meal_count;
+	pthread_mutex_t	ml_ct_mtx;
 	long			last_meal;
 	pthread_mutex_t	lst_ml_mtx;
 	bool			*all_alive;
@@ -91,7 +92,7 @@ bool	is_valid(char **av, int ac);
 int		error_(char *str);
 //===========_UTILS_============//
 bool	init_rules(t_rules *rules, char **av, int ac);
-bool	start_philos(t_rules *rules);
+void	start_philos(t_rules *rules);
 void	wait_for_philos(t_rules *rules);
 void	safe_print_t_d(char c, t_philo *philos, unsigned int ts);
 void	safe_print_f_e_s(char c, t_philo *philos, unsigned int ts);

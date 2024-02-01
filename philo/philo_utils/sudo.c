@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/23 04:47:41 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 18:26:07 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/02/01 12:29:03 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static bool	is_dead(t_sudo *sudo, int *i)
 {
 	pthread_mutex_lock(&(sudo->philos[*i].lst_ml_mtx));
+	pthread_mutex_lock(&(sudo->philos[*i].ml_ct_mtx));
 	if ((get_time(&(sudo->philos->rules->timer)) * 1000)
 		- ((sudo->philos[*i].last_meal) * 1000) > (sudo->philos->rules->to_die)
 		&& ((sudo->philos[*i].meal_count) != -3))
@@ -24,10 +25,12 @@ static bool	is_dead(t_sudo *sudo, int *i)
 		pthread_mutex_unlock(&(sudo->philos->rules->alive_mutex));
 		safe_print_t_d('d', &(sudo->philos[*i]),
 			get_time(&(sudo->philos->rules->timer)));
+		pthread_mutex_unlock(&(sudo->philos[*i].ml_ct_mtx));
 		pthread_mutex_unlock(&(sudo->philos[*i].lst_ml_mtx));
 		(*i) = -10;
 		return (true);
 	}
+	pthread_mutex_unlock(&(sudo->philos[*i].ml_ct_mtx));
 	pthread_mutex_unlock(&(sudo->philos[*i].lst_ml_mtx));
 	return (false);
 }
