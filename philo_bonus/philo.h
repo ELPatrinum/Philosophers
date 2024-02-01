@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:18:44 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/31 21:05:42 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/02/01 10:38:46 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_philo
 {
 	long			meal_count;
 	long			last_meal;
-	t_fork		*fork;
+	t_fork			*fork;
 	pid_t			pid;
 	int				id;
 	bool			start;
@@ -87,7 +87,7 @@ bool	init_rules(t_rules *rules, char **av, int ac);
 void	start_philos(t_rules *rules);
 void	safe_print_t_d(char c, t_philo *philos, unsigned int ts);
 void	safe_print_f_e_s(char c, t_philo *philos, unsigned int ts);
-void	ft_usleep(unsigned int usec);
+void	ft_usleep(unsigned int usec, t_philo *philos, int check);
 size_t	get_time(t_timer *timer);
 void	*sudo_routine(void *sdo);
 void	wait_for_philos(t_rules *rules, int *result);

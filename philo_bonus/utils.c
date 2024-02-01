@@ -6,13 +6,13 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:18:49 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/28 17:38:27 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/02/01 10:42:20 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	ft_usleep(unsigned int usec)
+void	ft_usleep(unsigned int usec, t_philo *philos, int check)
 {
 	struct timeval	now;
 	size_t			start;
@@ -23,6 +23,17 @@ void	ft_usleep(unsigned int usec)
 	start = current;
 	while (current - start < (usec / 1000))
 	{
+		if ((check == 1) && (((get_time(&(philos->rules->timer)) * 1000)
+					- ((philos->last_meal) * 1000) + philos->rules->to_eat)
+				> philos->rules->to_die))
+		{
+			ft_usleep(philos->rules->to_die - ((get_time(&(philos->rules->timer)
+							) * 1000) - ((philos->last_meal) * 1000)
+					), philos, 0);
+			safe_print_t_d('d', philos,
+				get_time(&(philos->rules->timer)));
+			exit (200);
+		}
 		gettimeofday(&now, NULL);
 		current = (now.tv_sec * 1000) + (now.tv_usec / 1000);
 		usleep(50);

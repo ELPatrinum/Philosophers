@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:59:50 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/01/31 21:07:08 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/02/01 10:37:57 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,11 @@ int	error_(char *str)
 
 void	if_one(char **av)
 {
-	t_timer timer;
+	t_timer	timer;
+
 	gettimeofday(&(timer.start_time), NULL);
 	printf("%zu 1 has taken a fork\n", get_time(&(timer)));
-	ft_usleep(ft_atoi(av[2]) * 1000);
+	ft_usleep(ft_atoi(av[2]) * 1000, NULL, 0);
 	printf("%zu 1 died\n", get_time(&(timer)));
 	exit(EXIT_SUCCESS);
 }

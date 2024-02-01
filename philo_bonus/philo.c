@@ -6,7 +6,7 @@
 /*   By: muel-bak <muel-bak@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:18:35 by muel-bak          #+#    #+#             */
-/*   Updated: 2024/02/01 09:27:53 by muel-bak         ###   ########.fr       */
+/*   Updated: 2024/02/01 10:28:04 by muel-bak         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	check_(t_philo *philos)
 		exit (300);
 	}
 	if ((get_time(&(philos->rules->timer)) * 1000)
-		- ((philos->last_meal) * 1000) >= philos->rules->to_die && (philos->meal_count == 0))
+		- ((philos->last_meal) * 1000) >= philos->rules->to_die)
 	{
 		safe_print_t_d('d', philos,
 			get_time(&(philos->rules->timer)));
@@ -36,12 +36,12 @@ static void	routine(t_philo *philos)
 	safe_print_f_e_s('f', philos, get_time(&(philos->rules->timer)));
 	safe_print_f_e_s('e', philos, get_time(&(philos->rules->timer)));
 	(philos->last_meal) = get_time(&(philos->rules->timer));
-	ft_usleep((unsigned int)(philos->rules->to_eat));
+	ft_usleep((unsigned int)(philos->rules->to_eat), philos, 1);
 	(philos->meal_count) += 1;
 	sem_post(philos->fork->fork);
 	sem_post(philos->fork->fork);
 	safe_print_f_e_s('s', philos, get_time(&(philos->rules->timer)));
-	ft_usleep(philos->rules->to_sleep);
+	ft_usleep(philos->rules->to_sleep, philos, 0);
 	safe_print_t_d('t', philos, get_time(&(philos->rules->timer)));
 	check_(philos);
 }
@@ -53,7 +53,7 @@ void	*philo_routine(void *ph)
 	philos = (t_philo *)ph;
 	if ((philos->id) % 2 == 0)
 	{
-		ft_usleep((philos->rules->phs_nb) * 1000);
+		ft_usleep((philos->rules->phs_nb) * 1000, philos, 0);
 	}
 	while (1)
 	{
@@ -78,7 +78,7 @@ void	start_philos(t_rules *rules)
 			philo_routine(philos + i);
 		}
 		i++;
-		ft_usleep(100);
+		ft_usleep(100, philos, 0);
 	}
 }
 
